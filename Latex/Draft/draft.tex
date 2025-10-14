@@ -1,0 +1,478 @@
+\documentclass[12pt]{article}
+\usepackage{mathpazo, amsmath, amssymb, amsfonts, amsthm, microtype, tikz, titling, graphicx, booktabs, caption, subcaption, bm, xfrac, appendix, setspace, comment, float, nth, fnpct, makecell, multirow, tabularx, threeparttable, titling, array, lipsum, mathtools, tocloft, tocvsec2}
+\usepackage[margin=2.75cm]{geometry}
+\renewcommand{\baselinestretch}{1.15}
+\renewcommand{\arraystretch}{2}
+\setlength\droptitle{-2.5cm}
+%\setlength\parindent{0cm}
+\setlength{\parskip}{0.15cm}
+\definecolor{HEC}{rgb}{0, 0.1569, 0.3333}
+\usepackage[colorlinks, allcolors=HEC]{hyperref}
+\urlstyle{rm}
+\captionsetup[figure]{labelfont={color=HEC}}
+\captionsetup[table]{labelfont={color=HEC}}
+\usepackage[ruled, vlined]{algorithm2e}
+\setlength{\abovecaptionskip}{0.5cm}
+\usepackage[longnamesfirst]{natbib}
+
+% Command to reference subfigures
+\renewcommand{\thesubfigure}{(\alph{subfigure})}
+\captionsetup[sub]{labelformat=simple}
+
+% Define the path for the figures
+\graphicspath{{../../Figures/}}
+
+% Define a command and the path for the tables
+\newcommand*\includetables[1]{\input{../../Tables/#1.tex}}
+
+% Do not add sections of the main text to the appendix's table of content
+\addtocontents{toc}{\protect\setcounter{tocdepth}{-1}}
+
+% Command to comment within lines
+\newcommand{\ignore}[1]{}
+
+% Command to center table columns
+\newcolumntype{C}[1]{>{\centering\arraybackslash}p{#1}}
+\newlength\mcwidth
+
+% Mathematical commands
+\DeclareMathOperator*{\argmax}{arg\,max}
+\newcommand{\diag}[1]{\text{diag}\left(#1\right)}
+\newcommand{\partialof}[2]{\frac{\partial #1}{\partial #2}}
+\newcommand{\totalof}[2]{\frac{\mathrm{d} #1}{\mathrm{d} #2}}
+\newcommand{\deltaof}[3]{\delta #1 [#2; #3]}
+\newcommand{\innerprod}[3]{\langle #1, #2 \rangle_{#3}}
+\newtheorem{theorem}{Theorem}
+\newtheorem{corollary}{Corollary}
+\newtheorem{definition}{Definition}
+\newtheorem{proposition}{Proposition}
+\newtheorem{lemma}{Lemma}
+
+% Command to resize equations
+\newcommand{\resizeeq}[2]{\resizebox{#2\hsize}{!}{$#1$}}
+
+% Command to make a small horizontal space
+\newcommand{\smallquad}{\hspace{0.5em}}
+
+% Title
+\title{\textbf{Love of Variety}\thanks{We are grateful to ZZZ.}}
+\author{\href{https://www.jeanfelixbrouillette.com}{Jean-F\'elix Brouillette}\textsuperscript{1}}
+\date{\today}
+
+\begin{document}
+
+\maketitle
+
+\footnotetext[1]{HEC Montr\'eal. E-mail: \href{mailto:jean-felix.brouillette@hec.ca}{jean-felix.brouillette@hec.ca}}
+
+\begin{abstract}
+    \lipsum[1]
+\end{abstract}
+
+\clearpage
+
+\section{Introduction}
+\label{s:introduction}
+
+\subsection*{Literature review}
+\label{s:literature review}
+
+\section{Theoretical framework}
+\label{s:theoretical framework}
+
+\subsection{Economic environment}
+\label{section:economic environment}
+
+\paragraph{Preferences.} Consider an economy populated by an infinitely-lived representative household of measure $N_t$ with logarithmic preferences over consumption:
+\begin{equation}
+    U = \int_0^{\infty} e^{-(\rho - n) t} \ln(c_t) \mathrm{d}t \quad \text{where} \quad c_t \equiv \frac{C_t}{N_t} \label{eq:lifetime utility}
+\end{equation}
+and where $\rho > 0$ is the rate of time preference. In particular, aggregate consumption $C_t$ is a Cobb-Douglas aggregate of sectoral consumption bundles from $S \in \mathbb{N}$ sectors indexed by $s \in \{1, \ldots, S\}$:
+\begin{equation}
+    C_t = \prod_{s = 1}^S C_{st}^{\beta_s} \quad \text{where} \quad \sum_{s = 1}^S \beta_s = 1. \label{eq:aggregate consumption}
+\end{equation}
+Within each sector, the household consumes a bundle of products indexed by $i$:
+\begin{equation}
+    C_{st} = \left(M_{st}^{-1 / \theta} \int_0^{M_{st}} C_{ist}^{\frac{\theta - 1}{\theta}} \mathrm{d}i\right)^{\frac{\theta}{\theta - 1}} \label{eq:sectoral consumption}
+\end{equation}
+where $C_{ist}$ is the consumed quantity of product $i$ from sector $s$, $M_{st}$ is the measure of products in that sector and $\theta > 1$ is the elasticity of substitution between those products. The representative household inelastically supplies $L_t^P \equiv \mathcal{S}^P \cdot N_t$ units of production labor and $L_t^E \equiv \mathcal{S}^E \cdot N_t$ units of entry labor where $\mathcal{S}^P + \mathcal{S}^E = 1$ and $\mathcal{S}^P, \mathcal{S}^E > 0$.
+
+\paragraph{Production technology.} Each sector $s$ is composed of $M_{st}$ firms producing a single product $i$ using production labor $l_{ist}$ and a bundle $x_{ist}$ of products from other sectors:
+\begin{align}
+    \begin{split}
+    y_{ist} = x_{ist} l_{ist}^{\alpha_s} \quad \text{where} \quad x_{ist} &= \prod_{k = 1}^S x_{ist}(k)^{\omega_{sk}} \\
+    \text{and} \quad x_{ist}(k) &= \left(M_{kt}^{\psi_{sk} - 1 / \theta} \int_0^{M_{kt}} x_{ist}(j, k)^{\frac{\theta - 1}{\theta}} \mathrm{d}j\right)^{\frac{\theta}{\theta - 1}}. \label{eq:production technology}
+    \end{split}
+\end{align}
+Here, $y_{ist}$ is the output of firm $i$ from sector $s$ and $x_{ist}(j, k)$ is the quantity of product $j$ from sector $k$ demanded by firm $i$ from sector $s$. The parameter $\alpha_s \in (0, 1)$ is the output elasticity of production labor in sector $s$ and $\omega_{sk}$ measures the importance of intermediate inputs from sector $k$ in the production technology of sector $s$, which are collected in the matrix $\bm{\Omega}$. In particular, we have:
+\begin{equation*}
+    \sum_{k = 1}^S \omega_{sk} = 1 - \alpha_s.
+\end{equation*}
+Finally, $\psi_{sk} > 0$ measures the strength of the taste for variety by sector $s$'s firms for products from sector $k$, which are collected in the matrix $\bm{\Psi}$. This formulation developed by \citet{Benassy_1996} isolates the ``taste for variety'' from the elasticity of substitution between products.
+
+\paragraph{Entry technology.} In every point in time, a unit measure of potential entrants in each sector attempt to introduce new products. Specifically, these entrants can direct $1 / \epsilon_s$ units of labor to entry in order to create a unit flow of these new products. Hence, the evolution of the measure of products in sector $s$ is given by:
+\begin{equation}
+    \dot{M}_{st} = \epsilon_s L_{st}^E. \label{eq:entry technology}
+\end{equation}
+
+\paragraph{Resource constraints.} The resource constraints for the products of each sector are given by:
+\begin{equation}
+    C_{ist} + \sum_{k = 1}^S \int_0^{M_{kt}} x_{jkt}(i, s) \mathrm{d}j \leq y_{ist} \quad \forall i \in M_{st} \quad \forall s \in \{1, \ldots, S\}, \label{eq:product resource constraints}
+\end{equation}
+the resource constraint for production labor is given by:
+\begin{equation}
+    \sum_{s = 1}^S \int_0^{M_{st}} l_{ist} \mathrm{d}i \leq \mathcal{S}^P N_t, \label{eq:production labor resource constraint}
+\end{equation}
+and the resource constraint for entry labor is given by:
+\begin{equation}
+    \sum_{s = 1}^S L_{st}^E \leq \mathcal{S}^E N_t. \label{eq:entry labor resource constraint}
+\end{equation}
+Finally, the population grows at constant rate $n > 0$:
+\begin{equation}
+    \dot{N}_t = n \cdot N_t. \label{eq:population}
+\end{equation}
+The economic environment is summarized in Table \ref{tab:environment}.
+
+\begin{table}[h!]
+    \centering
+    \caption{The economic environment}
+    \resizebox{\textwidth}{!}{
+    \begin{tabular}{lll}
+    \hline
+    \hline
+    \eqref{eq:lifetime utility} & $U = \int_0^{\infty} e^{-(\rho - n) t} \ln(C_t / N_t) \mathrm{d}t$ & Lifetime utility \\
+    \eqref{eq:aggregate consumption} & $C_t = \prod_{s = 1}^S C_{st}^{\beta_s}$ & Aggregate consumption \\
+    \eqref{eq:sectoral consumption} & $C_{st} = (M_{st}^{-1 / \theta} \int_0^{M_{st}} C_{ist}^{\frac{\theta - 1}{\theta}} \mathrm{d}i)^{\frac{\theta}{\theta - 1}}$ & Sectoral consumption \\
+    \eqref{eq:production technology} & $y_{ist} = \prod_{k = 1}^S (M_{kt}^{\psi_{sk} - 1 / \theta} \int_0^{M_{kt}} x_{ist}(j, k)^{\frac{\theta - 1}{\theta}} \mathrm{d}j)^{\frac{\omega_{sk} \theta}{\theta - 1}} {l_{ist}^P}^{\alpha_s}$ & Production technology \\
+    \eqref{eq:entry technology} & $\dot{M}_{st} = \epsilon_s L_{st}^E$ & Entry technology \\
+    \eqref{eq:product resource constraints} & $C_{ist} + \sum_{k = 1}^S \int_0^{M_{kt}} x_{jkt}(i, s) \mathrm{d}j \leq y_{ist}$ & Product resources \\
+    \eqref{eq:production labor resource constraint} & $\sum_{s = 1}^S \int_0^{M_{st}} \ell_{ist} \mathrm{d}i \leq \mathcal{S}^P N_t$ & Production labor resources \\
+    \eqref{eq:entry labor resource constraint} & $\sum_{s = 1}^S L_{st}^E \leq \mathcal{S}^E N_t$ & Entry labor resources \\
+    \eqref{eq:population} & $\dot{N}_t = n \cdot N_t$ & Population growth \\
+    \hline
+    \hline
+    \end{tabular}}
+    \label{tab:environment}
+\end{table}
+
+\subsection{The market equilibrium allocation}
+
+\subsection{The optimal allocation}
+
+\clearpage
+
+\bibliography{../references}
+\bibliographystyle{aer}
+
+\clearpage
+\renewcommand{\contentsname}{Appendix}
+\addtocontents{toc}{\protect\setcounter{tocdepth}{2}}
+\tableofcontents
+
+\clearpage
+\appendix
+\numberwithin{equation}{section}
+\renewcommand\thefigure{\thesection.\arabic{figure}}
+\renewcommand\thetable{\thesection.\arabic{table}}
+
+\section{Theoretical appendix}
+\label{a:theoretical appendix}
+
+\subsection{The optimal allocation}
+\label{a:optimal allocation}
+
+By symmetry across firms within sectors, we have:
+\begin{equation*}
+    C_{ist} = \frac{C_{st}}{M_{st}}, \quad l_{ist} = \frac{L_{st}^P}{M_{st}}, \quad \text{and} \quad x_{ist}(j, k) = \frac{x_{st}(k)}{M_{st} M_{kt}}.
+\end{equation*}
+Substituting these into the equations of Table \ref{tab:environment}, we have:
+\begin{equation*}
+    C_t = \prod_{s = 1}^S C_{st}^{\beta_s} \quad \text{where} \quad C_{st} = \prod_{k = 1}^S \left(x_{st}(k) M_{kt}^{\psi_{sk}}\right)^{\omega_{sk}} {L_{st}^P}^{\alpha_s} - \sum_{k = 1}^S x_{kt}(s).
+\end{equation*}
+Therefore, the planner's static allocation problem is equivalent to:
+\begin{align*}
+    &\max_{C_{st}, x_{st}(k), L_{st}^P} \sum_{s = 1}^S \beta_s \ln(C_{st}) \\
+    &\text{s.t.} \quad C_{st} = \prod_{k = 1}^S \left(x_{st}(k) M_{kt}^{\psi_{sk}}\right)^{\omega_{sk}} {L_{st}^P}^{\alpha_s} - \sum_{k = 1}^S x_{kt}(s) \\
+    &\text{s.t.} \quad \sum_{s = 1}^S L_{st}^P = \mathcal{S}^P N_t.
+\end{align*}
+The first-order conditions of this problem imply that:
+\begin{equation*}
+    x_{st}(k) = \frac{\beta_s \omega_{sk} Y_{st} C_{kt}}{\beta_k C_{st}} \quad \text{and} \quad \frac{\alpha_s Y_{st}}{\lambda_t L_{st}^P} = \frac{C_{st}}{\beta_s}
+\end{equation*}
+where $\lambda_t$ denotes the Lagrange multiplier on the production labor resource constraint and aggregate output in sector $s$ is defined as:
+\begin{equation}
+    Y_{st} \equiv \prod_{k = 1}^S \left(x_{st}(k) M_{kt}^{\psi_{sk}}\right)^{\omega_{sk}} {L_{st}^P}^{\alpha_s}. \label{eq:aggregate output}
+\end{equation}
+Using the problem's optimality conditions, we obtain an expression for the quantity of intermediate inputs from sector $k$ used by sector $s$:
+\begin{equation}
+    x_{st}(k) = \omega_{sk} Y_{kt} \cdot \frac{\alpha_k L_{st}^P}{\alpha_s L_{kt}^P}. \label{eq:intermediate inputs}
+\end{equation}
+Substituting this and the optimality condition for the production labor choice into the product resource constraint of sector $s$, and rearranging, we have:
+\begin{equation*}
+    \frac{\beta_s}{\lambda_t} = \frac{L_{st}^P}{\alpha_s} - \sum_{k = 1}^S \frac{\omega_{ks} L_{kt}^P}{\alpha_k}.
+\end{equation*}
+This expression can be rewritten in vector notation as:
+\begin{equation*}
+    \lambda_t \mathbf{L}_t^P = \text{diag}(\bm{\alpha}) (\mathbf{I} - \bm{\Omega}^{\top})^{-1} \bm{\beta}.
+\end{equation*}
+The multiplier $\lambda_t$ can be solved for by using the production labor resource constraint:
+\begin{equation*}
+    \lambda_t L^P = \mathbf{1}^{\top} \text{diag}(\bm{\alpha}) (\mathbf{I} - \bm{\Omega}^{\top})^{-1} \bm{\beta}
+\end{equation*}
+Therefore, the share of production labor allocated to each sector is:
+\begin{equation*}
+    \frac{\mathbf{L}_t^P}{L_t^P} = \frac{\text{diag}(\bm{\alpha}) (\mathbf{I} - \bm{\Omega}^{\top})^{-1} \bm{\beta}}{\mathbf{1}^{\top} \text{diag}(\bm{\alpha}) (\mathbf{I} - \bm{\Omega}^{\top})^{-1} \bm{\beta}}.
+\end{equation*}
+Substituting equation \eqref{eq:intermediate inputs} in equation \eqref{eq:aggregate output}, we obtain an expression for the marginal product of production labor in sector $s$ as a function of the marginal product of production labor of its suppliers:
+\begin{equation*}
+    \frac{\alpha_s Y_{st}}{L_{st}^P} = \alpha_s^{\alpha_s} \prod_{k = 1}^S \left(\omega_{sk} M_{kt}^{\psi_{sk}} \cdot \frac{\alpha_k Y_{kt}}{L_{kt}^P}\right)^{\omega_{sk}}.
+\end{equation*}
+Denoting these marginal products by $Y_{st}^L$ and taking logarithms, we can rewrite:
+\begin{equation*}
+    \ln(Y_{st}^L) = \alpha_s \ln(\alpha_s) + \sum_{k = 1}^S \omega_{sk} \ln(\omega_{sk}) + \sum_{k = 1}^S \omega_{sk} \psi_{sk} \ln(M_{kt}) + \sum_{k = 1}^S \omega_{sk} \ln(Y_{kt}^L).
+\end{equation*}
+Defining $\hat{\mathbf{X}}$ as the element-wise logarithm of an arbitrary vector or matrix $\mathbf{X}$, we can rewrite in log-vector notation:
+\begin{equation*}
+    \hat{\mathbf{Y}}_t^L = (\mathbf{I} - \bm{\Omega})^{-1} [\text{diag}(\bm{\alpha}) \hat{\bm{\alpha}} + (\bm{\Omega} \circ \hat{\bm{\Omega}}) \mathbf{1} + (\bm{\Omega} \circ \Psi) \hat{\mathbf{M}}_t]
+\end{equation*}
+where $\circ$ denotes the Hadamard product. Using the definition of $Y_{st}^L$, we have:
+\begin{equation*}
+    \hat{\mathbf{Y}}_t = (\mathbf{I} - \bm{\Omega})^{-1} [\text{diag}(\bm{\alpha}) \hat{\bm{\alpha}} + (\bm{\Omega} \circ \hat{\bm{\Omega}}) \mathbf{1} + (\bm{\Omega} \circ \Psi) \hat{\mathbf{M}}_t] + \hat{\mathbf{L}}_t^P - \hat{\bm{\alpha}}.
+\end{equation*}
+Substituting equation \eqref{eq:intermediate inputs} in the sectoral resource constraints, we have:
+\begin{equation*}
+    C_{st} = Y_{st} \left(1 - \frac{\alpha_s}{L_{st}^P} \times \sum_{k = 1}^S \frac{\omega_{ks} L_{kt}^P}{\alpha_k}\right).
+\end{equation*}
+In log-vector notation, we can analogously rewrite:
+\begin{equation*}
+    \hat{\mathbf{C}}_t = \hat{\mathbf{Y}}_t + \hat{\bm{\Gamma}}_t \quad \text{where} \quad \bm{\Gamma}_t \equiv \mathbf{1} - \text{diag}(\bm{\alpha}) \text{diag}(\mathbf{L}_t^P)^{-1} \bm{\Omega}^{\top} \text{diag}(\bm{\alpha})^{-1} \mathbf{L}_t^P.
+\end{equation*}
+Therefore, the current-value Hamiltonian that corresponds to the planner's dynamic allocation problem is:
+\begin{equation*}
+    \mathcal{H}_t = \bm{\beta}^{\top} (\hat{\mathbf{Y}}_t + \hat{\bm{\Gamma}}_t) - \ln(N_t) + \sum_{s = 1}^{S - 1} \mu_{st} \epsilon_s L_{st}^E + \mu_{St} \left(L_t^E - \sum_{s = 1}^{S - 1} L_{st}^E\right)
+\end{equation*}
+where $\mu_{st}$ are costate variables. The optimality conditions of this problem are:
+\begin{align*}
+    \partialof{\mathcal{H}_t}{L_{st}^E} &= \mu_{st} \epsilon_s - \mu_{St} = 0, \\
+    \partialof{\mathcal{H}_t}{M_{st}} &= \frac{\bm{\beta}^{\top} (\mathbf{I} - \bm{\Omega})^{-1} (\bm{\Omega} \circ \bm{\Psi}) \mathbf{e}_s}{M_{st}} = (\rho - n) \mu_{st} - \dot{\mu}_{st}.
+\end{align*}
+On a balanced growth path, the measure of varieties within any sector must grow at rate $n$, which implies:
+\begin{equation*}
+    M_{st} = \frac{\epsilon_s L_{st}^E}{n}.
+\end{equation*}
+Using this result and the problem's optimality conditions, and rearranging, we have:
+\begin{equation*}
+    (\rho / n) \mu_{St} L_{st}^E = \bm{\beta}^{\top} (\mathbf{I} - \bm{\Omega})^{-1} (\bm{\Omega} \circ \bm{\Psi}) \mathbf{e}_s.
+\end{equation*}
+The costate variable $\mu_{St}$ is solved for by using the research labor resource constraint:
+\begin{equation*}
+    (\rho / n) \mu_{St} L_t^E = \mathbf{1}^{\top} \bm{\beta}^{\top} (\mathbf{I} - \bm{\Omega})^{-1} (\bm{\Omega} \circ \bm{\Psi}) \mathbf{e}_s.
+\end{equation*}
+Therefore, the share of entry labor allocated to each sector is:
+\begin{align*}
+    \frac{\mathbf{L}_t^E}{L_t^E} = \frac{\bm{\beta}^{\top} (\mathbf{I} - \bm{\Omega})^{-1} (\bm{\Omega} \circ \bm{\Psi})}{\mathbf{1}^{\top} \bm{\beta}^{\top} (\mathbf{I} - \bm{\Omega})^{-1} (\bm{\Omega} \circ \bm{\Psi})}.
+\end{align*}
+
+\clearpage
+
+\subsection{The market equilibrium allocation}
+\label{a:market equilibrium allocation}
+
+\subsubsection{The Household's Problem}
+\label{appendix:household problem}
+
+Taking prices and the measures of varieties as given, the representative household's problem is to choose its consumption $C_{ist}$ of each variety to maximize lifetime utility:
+\begin{align*}
+U = \max_{C_{ist}} \int_0^{\infty} e^{-(\rho - n) t} \ln(C_t) \text{d}t \quad \text{where} \quad C_t = \prod_{s = 1}^S \left(\int_0^{A_{st}} C_{ist}^{\frac{\theta_s - 1}{\theta_s}} \text{d}i\right)^{\frac{\beta_s \theta_s}{\theta_s - 1}}
+\end{align*}
+subject to the flow budget constraint:
+\begin{align*}
+\dot{B}_t = r_t B_t + w_t^L L_t + w_t^R R_t - \sum_{s = 1}^S \int_0^{A_{st}} p_{ist} C_{ist} \text{d}i - \sum_{s = 1}^S \int_0^{A_{st}} \tau_{st}^Y p_{ist} y_{ist} \text{d}i
+\end{align*}
+where $B_t$ is financial wealth at time $t$, $w_t^L$ and $w_t^R$ are the wages paid to workers and researchers, respectively, $p_{ist}$ and $y_{ist}$ are the price and quantity produced of variety $i$ from sector $s$, respectively, and $\tau_{st}^Y$ is the revenue subsidy to that firm. Choosing aggregate consumption as the num\'eraire, this problem delivers the usual Euler equation and final demand functions:
+\begin{align*}
+\frac{\dot{c}_t}{c_t} = r_t - \rho + n \quad \text{and} \quad C_{ist} = \beta_s C_t P_{st}^{\theta_s - 1} / p_{ist}^{\theta_s}\quad \forall i \in [0, A_{st}], \forall s \in \{1, \ldots, S\}
+\end{align*}
+where $c_t \equiv C_t / N_t$ and $P_{st}$ is the ideal price index of final consumption from sector $s$:
+\begin{align*}
+P_{st} \equiv \left(\int_0^{A_{st}} p_{ist}^{1 - \theta_s} \text{d}i\right)^{\frac{1}{1 - \theta_s}} \quad \forall s \in \{1, \ldots, S\}.
+\end{align*}
+Similarly, the ideal price index of aggregate consumption, denoted as $P_t$, is normalized to unity and is defined as:
+\begin{align*}
+P_t \equiv \prod_{s = 1}^S \left(\frac{P_{st}}{\beta_s}\right)^{\beta_s}.
+\end{align*}
+
+\subsubsection{The Firm's Problem}
+\label{appendix:firm problem}
+
+To hold a claim on a variety's perpetual profits, a firm must first purchase its patent from the R\&D industry in its sector through free-entry. Once that firm holds a patent, it engages in monopolistic competition on the output market and perfect competition on the markets for inputs. That is, it chooses a price as well as intermediate inputs and production labor to maximize profits $\pi_{ist}$ while taking as given the demand for its variety, the price $p_{jkt}$ of intermediate inputs, the wage paid to production workers $w_t^L$ and the revenue subsidy $\tau_{st}^Y$:
+\begin{align*}
+\pi_{ist} = \max_{p_{ist}, x_{ist}(j, k), \ell_{ist}}\{(1 + \tau_{st}^Y) p_{ist} y_{ist} - \sum_{k = 1}^S \int_0^{A_{kt}} p_{jkt} x_{ist}(j, k) \text{d}j - w_t^L \ell_{ist}\}.
+\end{align*}
+This can be broken down into several sub-problems. The first being the following cost minimization problem for each supplying sector $k$:
+\begin{align*}
+\min_{x_{ist}(j, k)} \int_0^{A_{kt}} p_{jkt} x_{ist}(j, k) \text{d}j \quad \text{s.t.} \quad \left(\int_0^{A_{kt}} x_{ist}(j, k)^{\frac{\theta_k - 1}{\theta_k}} \text{d}j\right)^{\frac{\theta_k}{\theta_k - 1}} \geq x_{ist}(k).
+\end{align*}
+The first-order conditions deliver the following demand functions:
+\begin{align*}
+x_{ist}(j, k) = (P_{kt} / p_{jkt})^{\theta_k} x_{ist}(k).
+\end{align*}
+The second sub-problem is the following cost minimization problem:
+\begin{align*}
+\min_{x_{ist}(k)} \sum_{k = 1}^S P_{kt} x_{ist}(k) \quad \text{s.t.} \quad \prod_{k = 1}^S x_{ist}(k)^{\omega_{sk}} \geq x_{ist}.
+\end{align*}
+The first-order conditions deliver the following demand functions:
+\begin{align*}
+x_{ist}(k) = \omega_{sk} (P_{st}^x x_{ist})^{\frac{1}{1 - \alpha_s}} / P_{kt} \quad \text{where} \quad P_{st}^x \equiv \prod_{k = 1}^S \left(\frac{P_{kt}}{\omega_{sk}}\right)^{\omega_{sk}}.
+\end{align*}
+The third sub-problem is the following cost minimization problem:
+\begin{align*}
+\min_{x_{ist}, \ell_{ist}}\{(1 - \alpha_s) (P_{st}^x x_{ist})^{\frac{1}{1 - \alpha_s}} + w_t^L \ell_{ist}\} \quad \text{s.t.} \quad x_{ist} \ell_{ist}^{\alpha_s} \geq y_{ist}.
+\end{align*}
+The first-order conditions deliver the following demand functions:
+\begin{align*}
+x_{ist} = (m_{st} y_{ist})^{1 - \alpha_s} / P_{st}^x \quad \text{and} \quad \ell_{ist} = \alpha_s m_{st} y_{ist} / w_t^L
+\end{align*}
+where $m_{st}$ denotes the marginal cost of firms in sector $s$:
+\begin{align*}
+m_{st} \equiv P_{st}^x \left(\frac{w_t^L}{\alpha_s}\right)^{\alpha_s}.
+\end{align*}
+The last sub-problem is the following profit maximization problem:
+\begin{align*}
+\max_{p_{ist}}\{[(1 + \tau_{st}^Y) p_{ist} - m_{st}] (P_{st}^{\theta_s - 1} / p_{ist}^{\theta_s}) [\beta_s C_t + \sum_{k = 1}^S \omega_{ks} m_{kt} Y_{kt}]\}.
+\end{align*}
+The first-order condition implies that firms set their price to a constant markup $\mu_s$ above marginal cost, net of the revenue subsidy:
+\begin{align*}
+p_{ist} = \frac{\mu_s m_{st}}{1 + \tau_{st}^Y} \quad \text{where} \quad \mu_s \equiv \frac{\theta_s}{\theta_s - 1}.
+\end{align*}
+Therefore, we can rewrite the different price indices as:
+\begin{align*}
+P_{st} = \frac{\mu_s m_{st} A_{st}^{\frac{1}{1 - \theta_s}}}{1 + \tau_{st}^Y} \quad \text{and} \quad P_{st}^x = \prod_{k = 1}^S \left[\frac{\mu_k m_{kt} A_{kt}^{\frac{1}{1 - \theta_k}}}{\omega_{sk} (1 + \tau_{kt}^Y)}\right]^{\omega_{sk}}.
+\end{align*}
+Therefore, firm profits in sector $s$ are given by:
+\begin{align*}
+\pi_{ist} = [(1 + \tau_{st}^Y) p_{ist} - m_{st}] y_{ist} = \frac{(1 + \tau_{st}^Y) p_{ist} y_{ist}}{\theta_s} = \frac{m_{st} y_{ist}}{\theta_s - 1}.
+\end{align*}
+Substituting the demand function for intermediate inputs in the firm's production function, we have:
+\begin{align*}
+y_{ist} = \frac{(m_{st} y_{ist})^{1 - \alpha_s} \ell_{ist}^{\alpha_s}}{P_{st}^x}.
+\end{align*}
+Solving for the output of firm $i$ in sector $s$, we have:
+\begin{align*}
+y_{ist} = \left(\frac{m_{st}^{1 - \alpha_s}}{P_{st}^x}\right)^{\frac{1}{\alpha_s}} \ell_{ist}.
+\end{align*}
+Using the symmetry of production labor demand functions as well as the definition of the firm's marginal cost, we can rewrite:
+\begin{align*}
+y_{ist} = \frac{(w_t^L / \alpha_s)^{1 - \alpha_s} L_{st}}{A_{st} P_{st}^x}.
+\end{align*}
+Therefore, firm profits in sector $s$ are given by:
+\begin{align*}
+\pi_{ist} = \frac{w_t^L L_{st}}{\alpha_s (\theta_s - 1) A_{st}} \quad \forall i \in [0, A_{st}], \forall s \in \{1, \ldots, S\}.
+\end{align*}
+
+\subsubsection{The Research Industry's Problem}
+\label{appendix:research industry problem}
+
+The research industry of each sector is assumed to be monopolistically competitive on the market for patents and perfectly competitive on the research labor market. Hence, it chooses a patent price $q_{st}$ as well as research labor to maximize profits, while taking as given the wage $w_t^R$ paid to researchers and the sector-specific R\&D taxes/subsidies $\tau_{st}^R$ set by the government:
+\begin{align*}
+\max_{q_{st}, R_{st}}\{q_{st} \eta_s R_{st} - (1 - \tau_{st}^R) w_t^R R_{st}\} \quad \forall s \in \{1, \ldots, S\}.
+\end{align*}
+With free-entry among patent buyers, the research industry sets the price of a patent as to extract all possible rents from the commercialization of an invention, which corresponds to the present value of a variety's stream of future profits. Together with perfect competition on the research labor market, this implies:
+\begin{align*}
+(1 - \tau_{st}^R) w_t^R = \eta_s q_{st} \quad \text{where} \quad q_{st} = \int_t^{\infty} e^{-\int_t^{t^{\prime}} r_{\tau} \text{d}\tau} \pi_{st^{\prime}} \text{d}t^{\prime} \quad \forall s \in \{1, \ldots, S\}.
+\end{align*}
+In particular, R\&D taxes/subsidies are budget neutral, which implies:
+\begin{align*}
+\sum_{s = 1}^S \tau_{st}^R w_t^R R_{st} = 0.
+\end{align*}
+Differentiating $q_{st}$ with respect to time, we obtain the law of motion for the price of a patent in sector $s$:
+\begin{align*}
+\dot{q}_{st} = r_t q_{st} - \frac{w_t^L L_{st}}{\alpha_s (\theta_s - 1) A_{st}} \quad \forall s \in \{1, \ldots, S\}.
+\end{align*}
+
+\subsubsection{Balanced Growth Path Solution}
+\label{appendix:BGP solution}
+
+The asset market clearing condition is:
+\begin{align*}
+B_t = \sum_{s = 1}^S q_{st} A_{st}.
+\end{align*}
+Differentiating with respect to time delivers:
+\begin{align*}
+\dot{B}_t = \sum_{s = 1}^S \dot{q}_{st} A_{st} + \sum_{s = 1}^S q_{st} \dot{A}_{st} = r_t B_t - w_t^L \sum_{s = 1}^S \frac{L_{st}}{\alpha_s (\theta_s - 1)} + w_t^R R_t.
+\end{align*}
+Combining this result with the household's flow budget constraint, we have:
+\begin{align*}
+C_t = w_t^L L_t + w_t^L \sum_{s = 1}^S \frac{L_{st}}{\alpha_s (\theta_s - 1)}  - \sum_{s = 1}^S \int_0^{A_{st}} \tau_{st}^Y p_{ist} y_{ist} \text{d}i.
+\end{align*}
+Substituting in the expression for firm revenues, we have:
+\begin{align*}
+C_t = w_t^L L_t + w_t^L \sum_{s = 1}^S \frac{\mu_s [1 - (\theta_s - 1) \tau_{st}^Y] L_{st}}{\alpha_s \theta_s (1 + \tau_{st}^Y)}.
+\end{align*}
+Taking the logarithm of the ideal price index of aggregate consumption, we have:
+\begin{align*}
+\sum_{s = 1}^S \beta_s [\ln(P_{st}) - \ln(\beta_s)] = 0.
+\end{align*}
+Substituting in the expressions for $P_{st}$ and using log-vector notation, we have:
+\begin{align*}
+\bm{\beta}^{\top} \{\hat{\bm{\mu}}_t^{\prime} + \hat{\mathbf{P}}_t^x + \text{diag}(\bm{\alpha}) [\ln(w_t^L) \mathbf{1} - \hat{\bm{\alpha}}] - \text{diag}(\bm{\theta} - 1)^{-1} \hat{\mathbf{A}}_t - \hat{\bm{\beta}}\} = 0
+\end{align*}
+where element $s$ of the $S \times 1$ vector $\hat{\bm{\mu}}_t^{\prime}$ is equal to $\ln(\mu_s) - \ln(1 + \tau_{st}^Y)$. Using the definition of $P_{st}^x$ together with log-vector notation, we have:
+\begin{align*}
+\hat{\mathbf{P}}_t^x = (\mathbf{I} - \bm{\Omega})^{-1} \{\bm{\Omega} [\hat{\bm{\mu}}_t^{\prime} + \text{diag}(\bm{\alpha}) [\ln(w_t^L) \mathbf{1} - \hat{\bm{\alpha}}] - \text{diag}(\bm{\theta} - 1)^{-1} \hat{\mathbf{A}}_t] - \text{diag}(\bm{\Omega} \hat{\bm{\Omega}}^{\top})\}.
+\end{align*}
+Substituting this expression in the previous equation delivers an expression for the logarithm of the wage paid to workers:
+\begin{align*}
+\ln(w_t^L) = \frac{\bm{\Lambda}^{\top} [\text{diag}(\bm{\alpha}) \hat{\bm{\alpha}} + \text{diag}(\bm{\theta} - 1)^{-1} \hat{\mathbf{A}}_t] + \bm{\beta}^{\top} [\text{diag}(\bm{\Omega} \hat{\bm{\Omega}}^{\top}) + \hat{\bm{\beta}} - \hat{\bm{\mu}}_t^{\prime}]}{\bm{\Lambda}^{\top} \bm{\alpha}}
+\end{align*}
+where $\bm{\Lambda}$ is defined as in Appendix \ref{appendix:optimal allocation}. On a balanced growth path, it must be that the measure of varieties within each sector grows at the same rate as the population, which implies:
+\begin{align*}
+A_{st} = \frac{\eta_s R_{st}}{n} \quad \forall s \in \{1, \ldots, S\}.
+\end{align*}
+
+
+
+\clearpage
+
+Similarly, the growth rate of the price of a patent must be equal to the growth rate of consumption per person, which implies:
+\begin{align*}
+R_{st} = \frac{n w_t^L L_{st}}{\alpha_s (\theta_s - 1) (\rho - n) \eta_s q_{st}} \quad \forall s \in \{1, \ldots, S\}.
+\end{align*}
+Therefore, the research labor market clearing condition deliver an expression for the research labor demand in each sector:
+\begin{align*}
+R_{st} = \frac{n w_t^L L_{st}}{\alpha_s (\theta_s - 1) (\rho - n) (1 - \tau_{st}^R) w_t^R} \quad \forall s \in \{1, \ldots, S\}.
+\end{align*}
+Imposing the research labor resource constraint, we obtain an expression for the wage paid to researchers:
+\begin{align*}
+w_t^R = \frac{n w_t^L}{(\rho - n) R_t} \times \sum_{s = 1}^S \frac{L_{st}}{\alpha_s (\theta_s - 1) (1 - \tau_{st}^R)}.
+\end{align*}
+Substituting this back into the previous equation, we obtain an expression for the share of research labor in each sector in vector notation:
+\begin{align*}
+\frac{\mathbf{R}_t}{R_t} = \frac{\text{diag}(\mathbf{1} - \bm{\tau}^R)^{-1} \text{diag}(\bm{\theta} - \mathbf{1})^{-1} \text{diag}(\bm{\alpha})^{-1} \mathbf{L}_t}{\mathbf{1}^{\top} \text{diag}(\mathbf{1} - \bm{\tau}^R)^{-1} \text{diag}(\bm{\theta} - \mathbf{1})^{-1} \text{diag}(\bm{\alpha})^{-1} \mathbf{L}_t}.
+\end{align*}
+The variety resource constraints are:
+\begin{align*}
+C_{ist} = y_{ist} - \sum_{k = 1}^S \int_0^{A_{kt}} x_{jkt}(i, s) \text{d}j \quad \forall i \in [0, A_{st}], \forall s \in \{1, \ldots, S\}.
+\end{align*}
+Multiplying both sides of this equation by $p_{ist}$ and substituting in the final and intermediate demand functions, as well as the expression for the output of firm $i$ in sector $s$, we have:
+\begin{align*}
+\beta_s C_t = \frac{\mu_s w_t^L L_{st}}{\alpha_s (1 + \tau_{st}^Y)} - \sum_{k = 1} ^S \frac{\omega_{ks} w_t^L L_{kt}}{\alpha_k} \quad \forall s \in \{1, \ldots, S\}.
+\end{align*}
+This equation can be rewritten in vector notation as:
+\begin{align*}
+\frac{w_t^L \mathbf{L}_t}{C_t} = \text{diag}(\bm{\alpha}) (\text{diag}(\bm{\mu}) \text{diag}(\mathbf{1} + \bm{\tau}^Y)^{-1} - \bm{\Omega}^{\top})^{-1} \bm{\beta}.
+\end{align*}
+Imposing the production labor resource constraint, we obtain an expression for the payments to production labor as a share of aggregate consumption:
+\begin{align*}
+\frac{w_t^L L_t}{C_t} = \mathbf{1}^{\top} \text{diag}(\bm{\alpha}) (\text{diag}(\bm{\mu}) \text{diag}(\mathbf{1} + \bm{\tau}^Y)^{-1} - \bm{\Omega}^{\top})^{-1} \bm{\beta}.
+\end{align*}
+Substituting this back into the previous equation, we obtain an expression for the share of production labor in each sector:
+\begin{align*}
+\frac{\mathbf{L}_t}{L_t} = \frac{\text{diag}(\bm{\alpha}) (\text{diag}(\bm{\mu}) \text{diag}(\mathbf{1} + \bm{\tau}^Y)^{-1} - \bm{\Omega}^{\top})^{-1} \bm{\beta}}{\mathbf{1}^{\top} \text{diag}(\bm{\alpha}) (\text{diag}(\bm{\mu}) \text{diag}(\mathbf{1} + \bm{\tau}^Y)^{-1} - \bm{\Omega}^{\top})^{-1} \bm{\beta}}.
+\end{align*}
+Substituting this back into the expression for the share of research labor in each sector, we have the following:
+\begin{align*}
+\frac{\mathbf{R}_t}{R_t} = \frac{\text{diag}(\mathbf{1} - \bm{\tau}^R)^{-1} \text{diag}(\bm{\theta} - \mathbf{1})^{-1} (\text{diag}(\bm{\mu}) \text{diag}(\mathbf{1} + \bm{\tau}^Y)^{-1} - \bm{\Omega}^{\top})^{-1} \bm{\beta}}{\mathbf{1}^{\top} \text{diag}(\mathbf{1} - \bm{\tau}^R)^{-1} \text{diag}(\bm{\theta} - \mathbf{1})^{-1} (\text{diag}(\bm{\mu}) \text{diag}(\mathbf{1} + \bm{\tau}^Y)^{-1} - \bm{\Omega}^{\top})^{-1} \bm{\beta}}.
+\end{align*}
+
+\end{document}

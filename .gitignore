@@ -1,0 +1,7 @@
+Graveyard/
+Latex/Draft/*
+!Latex/Draft/*.tex
+!Latex/Draft/*.pdf
+Latex/Slides/*
+!Latex/Slides/*.tex
+!Latex/Slides/*.pdf
