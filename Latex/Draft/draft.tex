@@ -101,7 +101,7 @@ where $C_{ist}$ is the consumed quantity of product $i$ from sector $s$, $M_{st}
 \begin{align}
     \begin{split}
     y_{ist} = x_{ist} l_{ist}^{\alpha_s} \quad \text{where} \quad x_{ist} &= \prod_{k = 1}^S x_{ist}(k)^{\omega_{sk}} \\
-    \text{and} \quad x_{ist}(k) &= \left(M_{kt}^{\psi_{sk} - 1 / \theta} \int_0^{M_{kt}} x_{ist}(j, k)^{\frac{\theta - 1}{\theta}} \mathrm{d}j\right)^{\frac{\theta}{\theta - 1}}. \label{eq:production technology}
+    \text{and} \quad x_{ist}(k) &= M_{kt}^{\psi_{sk}} \left(M_{kt}^{-1 / \theta} \int_0^{M_{kt}} x_{ist}(j, k)^{\frac{\theta - 1}{\theta}} \mathrm{d}j\right)^{\frac{\theta}{\theta - 1}}. \label{eq:production technology}
     \end{split}
 \end{align}
 Here, $y_{ist}$ is the output of firm $i$ from sector $s$ and $x_{ist}(j, k)$ is the quantity of product $j$ from sector $k$ demanded by firm $i$ from sector $s$. The parameter $\alpha_s \in (0, 1)$ is the output elasticity of production labor in sector $s$ and $\omega_{sk}$ measures the importance of intermediate inputs from sector $k$ in the production technology of sector $s$, which are collected in the matrix $\bm{\Omega}$. In particular, we have:
@@ -143,7 +143,7 @@ The economic environment is summarized in Table \ref{tab:environment}.
     \eqref{eq:lifetime utility} & $U = \int_0^{\infty} e^{-(\rho - n) t} \ln(C_t / N_t) \mathrm{d}t$ & Lifetime utility \\
     \eqref{eq:aggregate consumption} & $C_t = \prod_{s = 1}^S C_{st}^{\beta_s}$ & Aggregate consumption \\
     \eqref{eq:sectoral consumption} & $C_{st} = (M_{st}^{-1 / \theta} \int_0^{M_{st}} C_{ist}^{\frac{\theta - 1}{\theta}} \mathrm{d}i)^{\frac{\theta}{\theta - 1}}$ & Sectoral consumption \\
-    \eqref{eq:production technology} & $y_{ist} = \prod_{k = 1}^S (M_{kt}^{\psi_{sk} - 1 / \theta} \int_0^{M_{kt}} x_{ist}(j, k)^{\frac{\theta - 1}{\theta}} \mathrm{d}j)^{\frac{\omega_{sk} \theta}{\theta - 1}} {l_{ist}^P}^{\alpha_s}$ & Production technology \\
+    \eqref{eq:production technology} & $y_{ist} = \prod_{k = 1}^S M_{kt}^{\omega_{sk} \psi_{sk}} (M_{kt}^{-1 / \theta} \int_0^{M_{kt}} x_{ist}(j, k)^{\frac{\theta - 1}{\theta}} \mathrm{d}j)^{\frac{\omega_{sk} \theta}{\theta - 1}} {l_{ist}^P}^{\alpha_s}$ & Production technology \\
     \eqref{eq:entry technology} & $\dot{M}_{st} = \epsilon_s L_{st}^E$ & Entry technology \\
     \eqref{eq:product resource constraints} & $C_{ist} + \sum_{k = 1}^S \int_0^{M_{kt}} x_{jkt}(i, s) \mathrm{d}j \leq y_{ist}$ & Product resources \\
     \eqref{eq:production labor resource constraint} & $\sum_{s = 1}^S \int_0^{M_{st}} \ell_{ist} \mathrm{d}i \leq \mathcal{S}^P N_t$ & Production labor resources \\
@@ -278,117 +278,102 @@ Therefore, the share of entry labor allocated to each sector is:
 \subsection{The market equilibrium allocation}
 \label{a:market equilibrium allocation}
 
-\subsubsection{The Household's Problem}
-\label{appendix:household problem}
-
-Taking prices and the measures of varieties as given, the representative household's problem is to choose its consumption $C_{ist}$ of each variety to maximize lifetime utility:
-\begin{align*}
-U = \max_{C_{ist}} \int_0^{\infty} e^{-(\rho - n) t} \ln(C_t) \text{d}t \quad \text{where} \quad C_t = \prod_{s = 1}^S \left(\int_0^{A_{st}} C_{ist}^{\frac{\theta_s - 1}{\theta_s}} \text{d}i\right)^{\frac{\beta_s \theta_s}{\theta_s - 1}}
-\end{align*}
+\paragraph{The household's problem.} Taking prices and the measures of varieties as given, the representative household's problem is to choose its consumption $C_{ist}$ of each variety to maximize lifetime utility:
+\begin{equation*}
+    U = \max_{C_{ist}} \int_0^{\infty} e^{-(\rho - n) t} \ln(C_t) \text{d}t \quad \text{where} \quad C_t = \prod_{s = 1}^S \left(M_{st}^{-1 / \theta} \int_0^{M_{st}} C_{ist}^{\frac{\theta - 1}{\theta}} \text{d}i\right)^{\frac{\beta_s \theta}{\theta - 1}}
+\end{equation*}
 subject to the flow budget constraint:
-\begin{align*}
-\dot{B}_t = r_t B_t + w_t^L L_t + w_t^R R_t - \sum_{s = 1}^S \int_0^{A_{st}} p_{ist} C_{ist} \text{d}i - \sum_{s = 1}^S \int_0^{A_{st}} \tau_{st}^Y p_{ist} y_{ist} \text{d}i
-\end{align*}
-where $B_t$ is financial wealth at time $t$, $w_t^L$ and $w_t^R$ are the wages paid to workers and researchers, respectively, $p_{ist}$ and $y_{ist}$ are the price and quantity produced of variety $i$ from sector $s$, respectively, and $\tau_{st}^Y$ is the revenue subsidy to that firm. Choosing aggregate consumption as the num\'eraire, this problem delivers the usual Euler equation and final demand functions:
-\begin{align*}
-\frac{\dot{c}_t}{c_t} = r_t - \rho + n \quad \text{and} \quad C_{ist} = \beta_s C_t P_{st}^{\theta_s - 1} / p_{ist}^{\theta_s}\quad \forall i \in [0, A_{st}], \forall s \in \{1, \ldots, S\}
-\end{align*}
+\begin{equation*}
+    \dot{A}_t = r_t A_t + w_t^P L_t^P + w_t^E L_t^E - \sum_{s = 1}^S \int_0^{M_{st}} p_{ist} C_{ist} \text{d}i
+\end{equation*}
+where $A_t$ is financial wealth at time $t$, $w_t^P$ and $w_t^E$ are the wages paid to production and entry labor, respectively, and $p_{ist}$ is the price of product $i$ from sector $s$. Choosing aggregate consumption as the num\'eraire, this problem delivers the usual Euler equation and final demand functions:
+\begin{equation*}
+    \frac{\dot{c}_t}{c_t} = r_t - \rho + n \quad \text{and} \quad C_{ist} = \frac{\beta_s C_t P_{st}^{\theta - 1}}{M_{st} p_{ist}^{\theta}}, \quad \forall i \in [0, M_{st}], \smallquad \forall s \in \{1, \ldots, S\}
+\end{equation*}
 where $c_t \equiv C_t / N_t$ and $P_{st}$ is the ideal price index of final consumption from sector $s$:
-\begin{align*}
-P_{st} \equiv \left(\int_0^{A_{st}} p_{ist}^{1 - \theta_s} \text{d}i\right)^{\frac{1}{1 - \theta_s}} \quad \forall s \in \{1, \ldots, S\}.
-\end{align*}
+\begin{equation*}
+    P_{st} \equiv \left(M_{st}^{-1} \int_0^{M_{st}} p_{ist}^{1 - \theta} \text{d}i\right)^{\frac{1}{1 - \theta}} \quad \forall s \in \{1, \ldots, S\}.
+\end{equation*}
 Similarly, the ideal price index of aggregate consumption, denoted as $P_t$, is normalized to unity and is defined as:
-\begin{align*}
-P_t \equiv \prod_{s = 1}^S \left(\frac{P_{st}}{\beta_s}\right)^{\beta_s}.
-\end{align*}
+\begin{equation*}
+    P_t \equiv \prod_{s = 1}^S \left(\frac{P_{st}}{\beta_s}\right)^{\beta_s}.
+\end{equation*}
 
-\subsubsection{The Firm's Problem}
-\label{appendix:firm problem}
-
-To hold a claim on a variety's perpetual profits, a firm must first purchase its patent from the R\&D industry in its sector through free-entry. Once that firm holds a patent, it engages in monopolistic competition on the output market and perfect competition on the markets for inputs. That is, it chooses a price as well as intermediate inputs and production labor to maximize profits $\pi_{ist}$ while taking as given the demand for its variety, the price $p_{jkt}$ of intermediate inputs, the wage paid to production workers $w_t^L$ and the revenue subsidy $\tau_{st}^Y$:
-\begin{align*}
-\pi_{ist} = \max_{p_{ist}, x_{ist}(j, k), \ell_{ist}}\{(1 + \tau_{st}^Y) p_{ist} y_{ist} - \sum_{k = 1}^S \int_0^{A_{kt}} p_{jkt} x_{ist}(j, k) \text{d}j - w_t^L \ell_{ist}\}.
-\end{align*}
+\paragraph{The firm's problem.} After entry, a firm engages in monopolistic competition on the output market and perfect competition on the markets for inputs. That is, it chooses a price as well as intermediate inputs and production labor to maximize profits $\pi_{ist}$ while taking as given the demand for its product, the price $p_{jkt}$ of intermediate inputs, and the production wage:
+\begin{equation*}
+    \pi_{ist} = \max_{p_{ist}, x_{ist}(j, k), l_{ist}}\{p_{ist} y_{ist} - \sum_{k = 1}^S \int_0^{M_{kt}} p_{jkt} x_{ist}(j, k) \text{d}j - w_t^P l_{ist}\}.
+\end{equation*}
 This can be broken down into several sub-problems. The first being the following cost minimization problem for each supplying sector $k$:
-\begin{align*}
-\min_{x_{ist}(j, k)} \int_0^{A_{kt}} p_{jkt} x_{ist}(j, k) \text{d}j \quad \text{s.t.} \quad \left(\int_0^{A_{kt}} x_{ist}(j, k)^{\frac{\theta_k - 1}{\theta_k}} \text{d}j\right)^{\frac{\theta_k}{\theta_k - 1}} \geq x_{ist}(k).
-\end{align*}
+\begin{equation*}
+    \min_{x_{ist}(j, k)} \int_0^{M_{kt}} p_{jkt} x_{ist}(j, k) \text{d}j \quad \text{s.t.} \quad M_{kt}^{\psi_{sk}} \left(M_{kt}^{-1 / \theta} \int_0^{M_{kt}} x_{ist}(j, k)^{\frac{\theta - 1}{\theta}} \text{d}j\right)^{\frac{\theta}{\theta - 1}} \geq x_{ist}(k).
+\end{equation*}
+
+\clearpage
 The first-order conditions deliver the following demand functions:
-\begin{align*}
-x_{ist}(j, k) = (P_{kt} / p_{jkt})^{\theta_k} x_{ist}(k).
-\end{align*}
+\begin{equation*}
+    x_{ist}(j, k) = (P_{st}^X(k) / p_{jkt})^{\theta} x_{ist}(k) M_{kt}^{\theta \psi_{sk} - 1} \quad \text{where} \quad P_{st}^X(k) \equiv P_{kt} M_{kt}^{\frac{\theta \psi_{sk}}{1 - \theta}}.
+\end{equation*}
 The second sub-problem is the following cost minimization problem:
-\begin{align*}
-\min_{x_{ist}(k)} \sum_{k = 1}^S P_{kt} x_{ist}(k) \quad \text{s.t.} \quad \prod_{k = 1}^S x_{ist}(k)^{\omega_{sk}} \geq x_{ist}.
-\end{align*}
+\begin{equation*}
+    \min_{x_{ist}(k)} \sum_{k = 1}^S P_{st}^X(k) x_{ist}(k) \quad \text{s.t.} \quad \prod_{k = 1}^S x_{ist}(k)^{\omega_{sk}} \geq x_{ist}.
+\end{equation*}
 The first-order conditions deliver the following demand functions:
-\begin{align*}
-x_{ist}(k) = \omega_{sk} (P_{st}^x x_{ist})^{\frac{1}{1 - \alpha_s}} / P_{kt} \quad \text{where} \quad P_{st}^x \equiv \prod_{k = 1}^S \left(\frac{P_{kt}}{\omega_{sk}}\right)^{\omega_{sk}}.
-\end{align*}
+\begin{equation*}
+    x_{ist}(k) = \omega_{sk} (P_{st}^X x_{ist})^{\frac{1}{1 - \alpha_s}} / P_{st}^X(k) \quad \text{where} \quad P_{st}^X \equiv \prod_{k = 1}^S \left(\frac{P_{st}^X(k)}{\omega_{sk}}\right)^{\omega_{sk}}.
+\end{equation*}
 The third sub-problem is the following cost minimization problem:
-\begin{align*}
-\min_{x_{ist}, \ell_{ist}}\{(1 - \alpha_s) (P_{st}^x x_{ist})^{\frac{1}{1 - \alpha_s}} + w_t^L \ell_{ist}\} \quad \text{s.t.} \quad x_{ist} \ell_{ist}^{\alpha_s} \geq y_{ist}.
-\end{align*}
+\begin{equation*}
+    \min_{x_{ist}, l_{ist}}\{(1 - \alpha_s) (P_{st}^X x_{ist})^{\frac{1}{1 - \alpha_s}} + w_t^P l_{ist}\} \quad \text{s.t.} \quad x_{ist} l_{ist}^{\alpha_s} \geq y_{ist}.
+\end{equation*}
 The first-order conditions deliver the following demand functions:
-\begin{align*}
-x_{ist} = (m_{st} y_{ist})^{1 - \alpha_s} / P_{st}^x \quad \text{and} \quad \ell_{ist} = \alpha_s m_{st} y_{ist} / w_t^L
-\end{align*}
+\begin{equation*}
+    x_{ist} = (m_{st} y_{ist})^{1 - \alpha_s} / P_{st}^X \quad \text{and} \quad \ell_{ist} = \alpha_s m_{st} y_{ist} / w_t^P
+\end{equation*}
 where $m_{st}$ denotes the marginal cost of firms in sector $s$:
-\begin{align*}
-m_{st} \equiv P_{st}^x \left(\frac{w_t^L}{\alpha_s}\right)^{\alpha_s}.
-\end{align*}
-The last sub-problem is the following profit maximization problem:
-\begin{align*}
-\max_{p_{ist}}\{[(1 + \tau_{st}^Y) p_{ist} - m_{st}] (P_{st}^{\theta_s - 1} / p_{ist}^{\theta_s}) [\beta_s C_t + \sum_{k = 1}^S \omega_{ks} m_{kt} Y_{kt}]\}.
-\end{align*}
-The first-order condition implies that firms set their price to a constant markup $\mu_s$ above marginal cost, net of the revenue subsidy:
-\begin{align*}
-p_{ist} = \frac{\mu_s m_{st}}{1 + \tau_{st}^Y} \quad \text{where} \quad \mu_s \equiv \frac{\theta_s}{\theta_s - 1}.
-\end{align*}
-Therefore, we can rewrite the different price indices as:
-\begin{align*}
-P_{st} = \frac{\mu_s m_{st} A_{st}^{\frac{1}{1 - \theta_s}}}{1 + \tau_{st}^Y} \quad \text{and} \quad P_{st}^x = \prod_{k = 1}^S \left[\frac{\mu_k m_{kt} A_{kt}^{\frac{1}{1 - \theta_k}}}{\omega_{sk} (1 + \tau_{kt}^Y)}\right]^{\omega_{sk}}.
-\end{align*}
+\begin{equation*}
+    m_{st} \equiv P_{st}^X \left(\frac{w_t^P}{\alpha_s}\right)^{\alpha_s}.
+\end{equation*}
+The last sub-problem is the firm's optimal pricing problem. It is straightforward to show that firms set their price to a constant markup $\mu$ above marginal cost:
+\begin{equation*}
+    p_{ist} = \mu \cdot m_{st} \quad \text{where} \quad \mu \equiv \frac{\theta}{\theta - 1}.
+\end{equation*}
 Therefore, firm profits in sector $s$ are given by:
-\begin{align*}
-\pi_{ist} = [(1 + \tau_{st}^Y) p_{ist} - m_{st}] y_{ist} = \frac{(1 + \tau_{st}^Y) p_{ist} y_{ist}}{\theta_s} = \frac{m_{st} y_{ist}}{\theta_s - 1}.
-\end{align*}
+\begin{equation*}
+    \pi_{ist} = \frac{m_{st} y_{ist}}{\theta - 1}.
+\end{equation*}
 Substituting the demand function for intermediate inputs in the firm's production function, we have:
-\begin{align*}
-y_{ist} = \frac{(m_{st} y_{ist})^{1 - \alpha_s} \ell_{ist}^{\alpha_s}}{P_{st}^x}.
-\end{align*}
+\begin{equation*}
+    y_{ist} = \frac{(m_{st} y_{ist})^{1 - \alpha_s} \ell_{ist}^{\alpha_s}}{P_{st}^X}.
+\end{equation*}
 Solving for the output of firm $i$ in sector $s$, we have:
-\begin{align*}
-y_{ist} = \left(\frac{m_{st}^{1 - \alpha_s}}{P_{st}^x}\right)^{\frac{1}{\alpha_s}} \ell_{ist}.
-\end{align*}
+\begin{equation*}
+    y_{ist} = \left(\frac{m_{st}^{1 - \alpha_s}}{P_{st}^X}\right)^{\frac{1}{\alpha_s}} \ell_{ist}.
+\end{equation*}
 Using the symmetry of production labor demand functions as well as the definition of the firm's marginal cost, we can rewrite:
-\begin{align*}
-y_{ist} = \frac{(w_t^L / \alpha_s)^{1 - \alpha_s} L_{st}}{A_{st} P_{st}^x}.
-\end{align*}
+\begin{equation*}
+    y_{ist} = \frac{(w_t^P / \alpha_s)^{1 - \alpha_s} L_{st}}{M_{st} P_{st}^X}.
+\end{equation*}
 Therefore, firm profits in sector $s$ are given by:
-\begin{align*}
-\pi_{ist} = \frac{w_t^L L_{st}}{\alpha_s (\theta_s - 1) A_{st}} \quad \forall i \in [0, A_{st}], \forall s \in \{1, \ldots, S\}.
-\end{align*}
+\begin{equation*}
+    \pi_{ist} = \frac{w_t^P L_{st}}{\alpha_s (\theta - 1) M_{st}}, \quad \forall i \in [0, M_{st}], \smallquad \forall s \in \{1, \ldots, S\}.
+\end{equation*}
+The value of such a firm is given by the present value of its future profits:
+\begin{equation*}
+    V_{st} = \int_t^{\infty} e^{-\int_t^{t^{\prime}} r_{\tau} \text{d}\tau} \pi_{st^{\prime}} \text{d}t^{\prime} \quad \forall s \in \{1, \ldots, S\}.
+\end{equation*}
+Differentiating $V_{st}$ with respect to time, we obtain the law of motion for the value of a firm in sector $s$:
+\begin{equation*}
+    \dot{V}_{st} = r_t V_{st} - \frac{w_t^P L_{st}}{\alpha_s (\theta - 1) M_{st}} \quad \forall s \in \{1, \ldots, S\}.
+\end{equation*}
 
-\subsubsection{The Research Industry's Problem}
-\label{appendix:research industry problem}
-
-The research industry of each sector is assumed to be monopolistically competitive on the market for patents and perfectly competitive on the research labor market. Hence, it chooses a patent price $q_{st}$ as well as research labor to maximize profits, while taking as given the wage $w_t^R$ paid to researchers and the sector-specific R\&D taxes/subsidies $\tau_{st}^R$ set by the government:
-\begin{align*}
-\max_{q_{st}, R_{st}}\{q_{st} \eta_s R_{st} - (1 - \tau_{st}^R) w_t^R R_{st}\} \quad \forall s \in \{1, \ldots, S\}.
-\end{align*}
-With free-entry among patent buyers, the research industry sets the price of a patent as to extract all possible rents from the commercialization of an invention, which corresponds to the present value of a variety's stream of future profits. Together with perfect competition on the research labor market, this implies:
-\begin{align*}
-(1 - \tau_{st}^R) w_t^R = \eta_s q_{st} \quad \text{where} \quad q_{st} = \int_t^{\infty} e^{-\int_t^{t^{\prime}} r_{\tau} \text{d}\tau} \pi_{st^{\prime}} \text{d}t^{\prime} \quad \forall s \in \{1, \ldots, S\}.
-\end{align*}
-In particular, R\&D taxes/subsidies are budget neutral, which implies:
-\begin{align*}
-\sum_{s = 1}^S \tau_{st}^R w_t^R R_{st} = 0.
-\end{align*}
-Differentiating $q_{st}$ with respect to time, we obtain the law of motion for the price of a patent in sector $s$:
-\begin{align*}
-\dot{q}_{st} = r_t q_{st} - \frac{w_t^L L_{st}}{\alpha_s (\theta_s - 1) A_{st}} \quad \forall s \in \{1, \ldots, S\}.
-\end{align*}
+\paragraph{The entrant's problem.} The entrant's problem is to choose entry labor to maximize the expected present discounted value of introducing a new product:
+\begin{equation*}
+    \max_{L_{st}^E} \{V_{st} \epsilon_s L_{st}^E - w_t^E L_{st}^E\} \quad \forall s \in \{1, \ldots, S\}.
+\end{equation*}
+With free-entry among potential entrants, this implies:
+\begin{equation*}
+    V_{st} = w_t^E / \epsilon_s \quad \forall s \in \{1, \ldots, S\}.
+\end{equation*}
 
 \subsubsection{Balanced Growth Path Solution}
 \label{appendix:BGP solution}
@@ -399,15 +384,15 @@ B_t = \sum_{s = 1}^S q_{st} A_{st}.
 \end{align*}
 Differentiating with respect to time delivers:
 \begin{align*}
-\dot{B}_t = \sum_{s = 1}^S \dot{q}_{st} A_{st} + \sum_{s = 1}^S q_{st} \dot{A}_{st} = r_t B_t - w_t^L \sum_{s = 1}^S \frac{L_{st}}{\alpha_s (\theta_s - 1)} + w_t^R R_t.
+\dot{B}_t = \sum_{s = 1}^S \dot{q}_{st} A_{st} + \sum_{s = 1}^S q_{st} \dot{A}_{st} = r_t B_t - w_t^L \sum_{s = 1}^S \frac{L_{st}}{\alpha_s (\theta - 1)} + w_t^R R_t.
 \end{align*}
 Combining this result with the household's flow budget constraint, we have:
 \begin{align*}
-C_t = w_t^L L_t + w_t^L \sum_{s = 1}^S \frac{L_{st}}{\alpha_s (\theta_s - 1)}  - \sum_{s = 1}^S \int_0^{A_{st}} \tau_{st}^Y p_{ist} y_{ist} \text{d}i.
+C_t = w_t^L L_t + w_t^L \sum_{s = 1}^S \frac{L_{st}}{\alpha_s (\theta - 1)}  - \sum_{s = 1}^S \int_0^{A_{st}} \tau_{st}^Y p_{ist} y_{ist} \text{d}i.
 \end{align*}
 Substituting in the expression for firm revenues, we have:
 \begin{align*}
-C_t = w_t^L L_t + w_t^L \sum_{s = 1}^S \frac{\mu_s [1 - (\theta_s - 1) \tau_{st}^Y] L_{st}}{\alpha_s \theta_s (1 + \tau_{st}^Y)}.
+C_t = w_t^L L_t + w_t^L \sum_{s = 1}^S \frac{\mu_s [1 - (\theta - 1) \tau_{st}^Y] L_{st}}{\alpha_s \theta (1 + \tau_{st}^Y)}.
 \end{align*}
 Taking the logarithm of the ideal price index of aggregate consumption, we have:
 \begin{align*}
@@ -436,15 +421,15 @@ A_{st} = \frac{\eta_s R_{st}}{n} \quad \forall s \in \{1, \ldots, S\}.
 
 Similarly, the growth rate of the price of a patent must be equal to the growth rate of consumption per person, which implies:
 \begin{align*}
-R_{st} = \frac{n w_t^L L_{st}}{\alpha_s (\theta_s - 1) (\rho - n) \eta_s q_{st}} \quad \forall s \in \{1, \ldots, S\}.
+R_{st} = \frac{n w_t^L L_{st}}{\alpha_s (\theta - 1) (\rho - n) \eta_s q_{st}} \quad \forall s \in \{1, \ldots, S\}.
 \end{align*}
 Therefore, the research labor market clearing condition deliver an expression for the research labor demand in each sector:
 \begin{align*}
-R_{st} = \frac{n w_t^L L_{st}}{\alpha_s (\theta_s - 1) (\rho - n) (1 - \tau_{st}^R) w_t^R} \quad \forall s \in \{1, \ldots, S\}.
+R_{st} = \frac{n w_t^L L_{st}}{\alpha_s (\theta - 1) (\rho - n) (1 - \tau_{st}^R) w_t^R} \quad \forall s \in \{1, \ldots, S\}.
 \end{align*}
 Imposing the research labor resource constraint, we obtain an expression for the wage paid to researchers:
 \begin{align*}
-w_t^R = \frac{n w_t^L}{(\rho - n) R_t} \times \sum_{s = 1}^S \frac{L_{st}}{\alpha_s (\theta_s - 1) (1 - \tau_{st}^R)}.
+w_t^R = \frac{n w_t^L}{(\rho - n) R_t} \times \sum_{s = 1}^S \frac{L_{st}}{\alpha_s (\theta - 1) (1 - \tau_{st}^R)}.
 \end{align*}
 Substituting this back into the previous equation, we obtain an expression for the share of research labor in each sector in vector notation:
 \begin{align*}
