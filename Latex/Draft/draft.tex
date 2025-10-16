@@ -66,7 +66,6 @@
 \footnotetext[1]{HEC Montr\'eal. E-mail: \href{mailto:jean-felix.brouillette@hec.ca}{jean-felix.brouillette@hec.ca}}
 
 \begin{abstract}
-    \lipsum[1]
 \end{abstract}
 
 \clearpage
@@ -157,7 +156,25 @@ The economic environment is summarized in Table \ref{tab:environment}.
 
 \subsection{The market equilibrium allocation}
 
+In Appendix \ref{a:market equilibrium allocation}, we derive the market equilibrium allocation of this economy. In particular, we show that on a balanced growth path, the share of production labor allocated to each sector is given by:
+\begin{equation*}
+    \frac{\mathbf{L}_t^P}{L_t^P} = \frac{\text{diag}(\mathbf{1} - \bm{\alpha}) (\mu \mathbf{I} - \bm{\Omega}^{\top} \text{diag}(\bm{\alpha}))^{-1} \bm{\beta}}{\mathbf{1}^{\top} \text{diag}(\mathbf{1} - \bm{\alpha}) (\mu \mathbf{I} - \bm{\Omega}^{\top} \text{diag}(\bm{\alpha}))^{-1} \bm{\beta}}
+\end{equation*}
+where $\mu \equiv \theta / (\theta - 1)$ is the constant markup. Similarly, the share of entry labor allocated to each sector is given by:
+\begin{equation*}
+    \frac{\mathbf{L}_t^E}{L_t^E} = \frac{(\mu \mathbf{I} - \bm{\Omega}^{\top} \text{diag}(\bm{\alpha}))^{-1} \bm{\beta}}{\mathbf{1}^{\top} (\mu \mathbf{I} - \bm{\Omega}^{\top} \text{diag}(\bm{\alpha}))^{-1} \bm{\beta}}.
+\end{equation*}
+
 \subsection{The optimal allocation}
+
+In Appendix \ref{a:optimal allocation}, we derive the optimal allocation of this economy. In particular, we show that on a balanced growth path, the share of production labor allocated to each sector is given by:
+\begin{equation*}
+    \frac{\mathbf{L}_t^P}{L_t^P} = \frac{\text{diag}(\mathbf{1} - \bm{\alpha}) (\mathbf{I} - \bm{\Omega}^{\top} \text{diag}(\bm{\alpha}))^{-1} \bm{\beta}}{\mathbf{1}^{\top} \text{diag}(\mathbf{1} - \bm{\alpha}) (\mathbf{I} - \bm{\Omega}^{\top} \text{diag}(\bm{\alpha}))^{-1} \bm{\beta}}
+\end{equation*}
+and the share of entry labor allocated to each sector is given by:
+\begin{equation*}
+    \frac{\mathbf{L}_t^E}{L_t^E} = \frac{(\bm{\Omega} \circ \bm{\Psi})^{\top} \text{diag}(\bm{\alpha}) (\mathbf{I} - \bm{\Omega}^{\top} \text{diag}(\bm{\alpha}))^{-1} \bm{\beta}}{\mathbf{1}^{\top} (\bm{\Omega} \circ \bm{\Psi})^{\top} \text{diag}(\bm{\alpha}) (\mathbf{I} - \bm{\Omega}^{\top} \text{diag}(\bm{\alpha}))^{-1} \bm{\beta}}.
+\end{equation*}
 
 \clearpage
 
@@ -273,9 +290,9 @@ The costate variable $\lambda_t$ is solved for by using the research labor resou
     (\rho / n) \lambda_t L_t^E = \bm{\beta}^{\top} (\mathbf{I} - \text{diag}(\bm{\alpha}) \bm{\Omega})^{-1} \text{diag}(\bm{\alpha}) (\bm{\Omega} \circ \bm{\Psi}) \mathbf{1}.
 \end{equation*}
 Therefore, the share of entry labor allocated to each sector is:
-\begin{align*}
-    \frac{\mathbf{L}_t^E}{L_t^E} = \frac{[\bm{\beta}^{\top} (\mathbf{I} - \text{diag}(\bm{\alpha}) \bm{\Omega})^{-1} \text{diag}(\bm{\alpha}) (\bm{\Omega} \circ \bm{\Psi})]^{\top}}{\bm{\beta}^{\top} (\mathbf{I} - \text{diag}(\bm{\alpha}) \bm{\Omega})^{-1} \text{diag}(\bm{\alpha}) (\bm{\Omega} \circ \bm{\Psi}) \mathbf{1}}.
-\end{align*}
+\begin{equation*}
+    \frac{\mathbf{L}_t^E}{L_t^E} = \frac{(\bm{\Omega} \circ \bm{\Psi})^{\top} \text{diag}(\bm{\alpha}) (\mathbf{I} - \bm{\Omega}^{\top} \text{diag}(\bm{\alpha}))^{-1} \bm{\beta}}{\mathbf{1}^{\top} (\bm{\Omega} \circ \bm{\Psi})^{\top} \text{diag}(\bm{\alpha}) (\mathbf{I} - \bm{\Omega}^{\top} \text{diag}(\bm{\alpha}))^{-1} \bm{\beta}}.
+\end{equation*}
 
 \subsection{The market equilibrium allocation}
 \label{a:market equilibrium allocation}
